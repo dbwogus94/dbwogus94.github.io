@@ -93,6 +93,7 @@ pageviews:
 #     dark — Use the dark color scheme
 #
 theme_mode: # [light | dark]
+# theme_mode: light
 
 # The CDN endpoint for media resources.
 # Notice that once it is assigned, the CDN url
@@ -102,7 +103,7 @@ theme_mode: # [light | dark]
 cdn:
 
 # the avatar on sidebar, support local or CORS resources
-avatar:
+avatar: "/assets/img/profile.jpg"
 
 # The URL of the site-wide social preview image used in SEO `og:image` meta tag.
 # It can be overridden by a customized `page.image` in front matter.
@@ -151,7 +152,7 @@ pwa:
     deny_paths:
       # - "/example"  # URLs match `<SITE_URL>/example/*` will not be cached by the PWA
 
-paginate: 10
+paginate: 5
 
 # The base URL of your site
 # baseurl: ""
@@ -205,12 +206,12 @@ defaults:
       path: assets/js/dist
     values:
     swcache: true
-  - scope:
-      path: categories
-      type: pages
-    values:
-      layout: category
-      permalink: /categories/:title/
+  # - scope:
+  #     path: categories
+  #     type: pages
+  #   values:
+  #     layout: category
+  #     permalink: /categories/:title/
 
 sass:
   style: compressed
