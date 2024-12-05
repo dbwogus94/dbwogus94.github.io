@@ -3,7 +3,7 @@ layout: post
 date: 2023-10-18
 title: "[아티클 분석] kakao 엔터 FE 기술블로그 - 마법소녀 이세계 아이돌 웹툰 런칭! BFF 장애 대응기"
 tags: [아티클, BFF, ]
-categories: [지식한입, ]
+categories: [지식한입, 아티클, ]
 ---
 
 
