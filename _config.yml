@@ -154,7 +154,7 @@ pwa:
 paginate: 10
 
 # The base URL of your site
-baseurl: ""
+# baseurl: ""
 
 # ------------ The following options are not recommended to be modified ------------------
 
@@ -196,6 +196,15 @@ defaults:
     values:
       layout: page
       permalink: /:title/
+  ## custom
+  - scope:
+      path: assets/img/favicons
+    values:
+      swcache: true
+  - scope:
+      path: assets/js/dist
+    values:
+    swcache: true
 
 sass:
   style: compressed
@@ -228,3 +237,6 @@ jekyll-archives:
   permalinks:
     tag: /tags/:name/
     category: /categories/:name/
+
+plugins:
+  - jekyll-sitemap # sitemap

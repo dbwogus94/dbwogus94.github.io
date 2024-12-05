@@ -5,8 +5,13 @@ const path = require('path');
 const fs = require('fs');
 const axios = require('axios');
 
+const env = {
+    NOTION_TOKEN: process.env.NOTION_TOKEN ?? '',
+    DATABASE_ID: process.env.DATABASE_ID ?? '',
+};
+
 const notion = new Client({
-    auth: process.env.NOTION_TOKEN,
+    auth: env.NOTION_TOKEN,
 });
 
 function escapeCodeBlock(body) {
@@ -44,7 +49,7 @@ const n2m = new NotionToMarkdown({ notionClient: notion });
     const root = '_posts';
     fs.mkdirSync(root, { recursive: true });
 
-    const databaseId = process.env.DATABASE_ID;
+    const databaseId = env.DATABASE_ID;
     let response = await notion.databases.query({
         database_id: databaseId,
         filter: {
@@ -130,7 +135,7 @@ title: "${title}"${fmtags}${fmcats}
 `;
         const mdblocks = await n2m.pageToMarkdown(id);
         let md = n2m.toMarkdownString(mdblocks)['parent'];
-        if (md === '') {
+        if (md === '' || md == null) {
             continue;
         }
         md = escapeCodeBlock(md);
