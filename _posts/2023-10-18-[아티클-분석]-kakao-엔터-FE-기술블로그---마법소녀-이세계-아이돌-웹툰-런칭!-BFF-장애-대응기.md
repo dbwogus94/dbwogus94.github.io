@@ -10,7 +10,9 @@ categories: [지식한입, 아티클, ]
 
 ### 원본 아티클
 
-- [마법소녀 이세계 아이돌 웹툰 런칭! BFF 장애 대응기 | 카카오엔터테인먼트 FE 기술블로그](https://fe-developers.kakaoent.com/2023/230925-bff-trouble-shooting/)
+
+[마법소녀 이세계 아이돌 웹툰 런칭! BFF 장애 대응기 | 카카오엔터테인먼트 FE 기술블로그](https://fe-developers.kakaoent.com/2023/230925-bff-trouble-shooting/)
+
 
 
 ### 1. 이슈 요약
