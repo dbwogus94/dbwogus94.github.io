@@ -191,7 +191,7 @@ title: "${title}"${fmtags}${fmcats}
 
         const ftitle = `${date}-${title
             .replaceAll(' ', '-')
-            .replace(/[\[\]\(\)]/g, '')}.md`;
+            .replace(/[\[\]\(\)\|]/g, '')}.md`;
 
         // 이미지 markdown regex
         const IMAGE_MARKDOWN_REGEX = /!\[(.*?)\]\((.*?)\)/g;
