@@ -14,14 +14,24 @@ const notion = new Client({
     auth: env.NOTION_TOKEN,
 });
 
-function escapeCodeBlock(body) {
+/**
+ * 코드 블록 이스케이프
+ * @param {string} body
+ * @returns {string}
+ */
+const escapeCodeBlock = (body) => {
     const regex = /```([\s\S]*?)```/g;
-    return body.replace(regex, function (match, htmlBlock) {
+    return body.replace(regex, (_, htmlBlock) => {
         return '\n{% raw %}\n```' + htmlBlock.trim() + '\n```\n{% endraw %}\n';
     });
-}
+};
 
-function replaceTitleOutsideRawBlocks(body) {
+/**
+ * 노션 아티클 타이틀 치환
+ * @param {string} body
+ * @returns {string}
+ */
+const replaceTitleOutsideRawBlocks = (body) => {
     const rawBlocks = [];
     const placeholder = '%%RAW_BLOCK%%';
     body = body.replace(/{% raw %}[\s\S]*?{% endraw %}/g, (match) => {
@@ -39,7 +49,33 @@ function replaceTitleOutsideRawBlocks(body) {
     });
 
     return body;
-}
+};
+
+/**
+ * 스트림으로 이미지 다운로드
+ * @param {*} url
+ * @param {*} filename
+ * @returns
+ */
+const downloadImage = (url, filename) => {
+    return axios({
+        method: 'get',
+        url: url,
+        responseType: 'stream',
+    })
+        .then((response) => {
+            return new Promise((resolve, reject) => {
+                const file = fs.createWriteStream(filename);
+                response.data.pipe(file);
+                file.on('finish', () => resolve(filename));
+                file.on('error', reject);
+                file.on('close', () => resolve(filename));
+            });
+        })
+        .catch((error) => {
+            throw new Error(`다운로드 실패: ${error.message}`);
+        });
+};
 
 // passing notion client to the option
 const n2m = new NotionToMarkdown({ notionClient: notion });
@@ -76,7 +112,14 @@ const n2m = new NotionToMarkdown({ notionClient: notion });
         pages.push(...response.results);
     }
 
+    /**
+     * 1. jekyll에 적용할 frontmatter 생성하기
+     * 2. 노션 아티클 markdown으로 변환하기
+     * 3. 노션 아티클에 포함된 이미지 다운로드 하기
+     * 4. 노션 아티클 markdown 파일로 생성하기
+     */
     for (const r of pages) {
+        /* 1. jekyll에 적용할 frontmatter 생성하기 */
         const id = r.id;
         // date
         let date = moment(r.created_time).format('YYYY-MM-DD');
@@ -84,29 +127,31 @@ const n2m = new NotionToMarkdown({ notionClient: notion });
         if (pdate) {
             date = moment(pdate).format('YYYY-MM-DD');
         }
-        // title
+
         let title = id;
+        let titles = [];
         let ptitle = r.properties?.['게시물']?.['title'];
         if (ptitle?.length > 0) {
-            title = ptitle[0]?.['plain_text'];
+            for (const t of ptitle) {
+                const n = t?.['plain_text'];
+                if (n) titles.push(n);
+            }
+            title = titles.join('');
         }
+
         // tags
         let tags = [];
         let ptags = r.properties?.['태그']?.['multi_select'];
         for (const t of ptags) {
             const n = t?.['name'];
-            if (n) {
-                tags.push(n);
-            }
+            if (n) tags.push(n);
         }
         // categories
         let cats = [];
         let pcats = r.properties?.['카테고리']?.['multi_select'];
         for (const t of pcats) {
             const n = t?.['name'];
-            if (n) {
-                cats.push(n);
-            }
+            if (n) cats.push(n);
         }
 
         // frontmatter
@@ -133,6 +178,8 @@ title: "${title}"${fmtags}${fmcats}
 ---
 
 `;
+
+        /* 2. 노션 아티클 markdown으로 변환 */
         const mdblocks = await n2m.pageToMarkdown(id);
         let md = n2m.toMarkdownString(mdblocks)['parent'];
         if (md === '' || md == null) {
@@ -140,45 +187,49 @@ title: "${title}"${fmtags}${fmcats}
         }
         md = escapeCodeBlock(md);
         md = replaceTitleOutsideRawBlocks(md);
-
+        // 노션 아티클 title to 마크다운 파일명
         const ftitle = `${date}-${title.replaceAll(' ', '-')}.md`;
 
+        // 이미지 markdown regex
+        const IMAGE_MARKDOWN_REGEX = /!\[(.*?)\]\((.*?)\)/g;
+
+        /* 3. 노션 아티클에 포함된 이미지 다운로드 로직 */
         let index = 0;
-        let edited_md = md.replace(
-            /!\[(.*?)\]\((.*?)\)/g,
-            function (match, p1, p2, p3) {
-                const dirname = path.join('assets/img', ftitle);
-                if (!fs.existsSync(dirname)) {
-                    fs.mkdirSync(dirname, { recursive: true });
-                }
-                const filename = path.join(dirname, `${index}.png`);
+        const downloadPromises = [];
+        // 이미지 markdown 치환하면서 이미지 다운로드 요청목록 생성
+        let edited_md = md.replace(IMAGE_MARKDOWN_REGEX, (_, p1, p2) => {
+            const dirname = path.join('assets/img', ftitle);
+            // 디렉토리 생성
+            if (!fs.existsSync(dirname))
+                fs.mkdirSync(dirname, { recursive: true });
+            // 이미지 파일명
+            const imgFilename = path.join(dirname, `${index}.png`);
+            // 이미지 다운로드 시작하고 프로미스 배열에 추가
+            downloadPromises.push(downloadImage(p2, imgFilename));
 
-                axios({
-                    method: 'get',
-                    url: p2,
-                    responseType: 'stream',
-                })
-                    .then(function (response) {
-                        let file = fs.createWriteStream(`${filename}`);
-                        response.data.pipe(file);
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    });
-
-                let res;
-                if (p1 === '') res = '';
-                else res = `_${p1}_`;
-
-                return `![${index++}](/${filename})${res}`;
-            }
+            const res = p1 === '' ? '' : `_${p1}_`;
+            // 이미지 markdown 치환, EX. ![1](/assets/img/2024-01-01-title/1.png)
+            return `![${index++}](/${imgFilename})${res}`;
+        });
+        // 모든 이미지 다운로드 완료 기다린다.
+        const res = await Promise.allSettled(downloadPromises);
+        // 결과 로깅
+        console.log(`\n[${ftitle}] 이미지 다운로드 결과:`);
+        const successful = res.filter((r) => r.status === 'fulfilled').length;
+        const failed = res.filter((r) => r.status === 'rejected').length;
+        console.log(
+            `\n총 ${res.length}개 중 성공: ${successful}, 실패: ${failed}\n`
         );
 
-        //writing to file
-        fs.writeFile(path.join(root, ftitle), fm + edited_md, (err) => {
-            if (err) {
-                console.log(err);
-            }
-        });
+        /* 4. 노션 아티클 markdown 파일로 생성 */
+        try {
+            await fs.promises.writeFile(
+                path.join(root, ftitle),
+                fm + edited_md
+            );
+            console.log(`파일 저장 완료: ${ftitle}`);
+        } catch (error) {
+            console.error(`파일 저장 실패: ${ftitle}`, error);
+        }
     }
 })();
