@@ -188,7 +188,10 @@ title: "${title}"${fmtags}${fmcats}
         md = escapeCodeBlock(md);
         md = replaceTitleOutsideRawBlocks(md);
         // 노션 아티클 title to 마크다운 파일명
-        const ftitle = `${date}-${title.replaceAll(' ', '-')}.md`;
+
+        const ftitle = `${date}-${title
+            .replaceAll(' ', '-')
+            .replace(/[\[\]\(\)]/g, '')}.md`;
 
         // 이미지 markdown regex
         const IMAGE_MARKDOWN_REGEX = /!\[(.*?)\]\((.*?)\)/g;
