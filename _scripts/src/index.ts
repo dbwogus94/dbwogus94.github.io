@@ -1,1 +1,3 @@
-console.log('hello world');
+import { main } from './notion-import';
+
+main().catch(console.error);
