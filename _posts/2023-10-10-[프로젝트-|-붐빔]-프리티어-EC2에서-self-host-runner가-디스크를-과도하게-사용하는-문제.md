@@ -6,14 +6,6 @@ tags: [AWS, github-action, boobim, ]
 categories: [시리즈, 프로젝트, ]
 ---
 
-- 관련 이슈
-
-[link_preview](https://github.com/actions/runner/issues/2708)
-
-- “**컨테이너에서 실행되는 GitHub Action으로 변경된 파일 정리” 관련 글**
-
-[bookmark](https://devopsjournal.io/blog/2023/06/21/GitHub-container-based-Action-cleanup)
-
 
 
 ### 1. 실행 환경
@@ -187,3 +179,9 @@ Error: An error occurred trying to start process
 극단적인 방법을 사용하긴 했지만 결과적으로 사용량은 낮추고 정상적인 실행을 가능하게 하였다.
 ⇒ 8GB의 한계는 어쩔 수 없다보다.
 
+
+
+### 참고
+
+- 관련 이슈: [**Self-hosted runner cleanup/update bloat growing over time #2708**](https://github.com/actions/runner/issues/2708)
+- [“](https://devopsjournal.io/blog/2023/06/21/GitHub-container-based-Action-cleanup)[**컨테이너에서 실행되는 GitHub Action으로 변경된 파일 정리” 관련 글**](https://devopsjournal.io/blog/2023/06/21/GitHub-container-based-Action-cleanup)

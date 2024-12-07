@@ -23,9 +23,7 @@ categories: [시리즈, 프로젝트, ]
 
 이슈를 해결한 PR 확인 
 
-
-[link_preview](https://github.com/2023vworks/boombim-be/pull/8)
-
+- [**chore: ec2 사양(t2.micro) 이슈로 deploy 순서 변경 #8**](https://github.com/2023vworks/boombim-be/pull/8)
 
 
 ### 1. 이슈 관측
@@ -154,7 +152,5 @@ PID
 
 ### 참고 
 
-- **AWS EC2 프리티어 쓰시는분들 참고하세요!**
-
-	[bookmark](https://okky.kr/articles/884329)
-
+- [**AWS EC2 프리티어 쓰시는분들 참고하세요!**](https://docs.aws.amazon.com/ko_kr/redshift/latest/dg/ST_MakeEnvelope-function.html)
+undefined
