@@ -9,6 +9,7 @@
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "build": "tsc --project tsconfig.json",
+    "start": "ts-node -r tsconfig-paths/register -- ./src",
     "start:dev": "dotenv -e .env -- ts-node -r tsconfig-paths/register -- ./src",
     "start:debug": "npm run build && dotenv -e .env -- node --inspect ./dist"
   },
