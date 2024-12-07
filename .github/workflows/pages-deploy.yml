@@ -51,7 +51,7 @@ jobs:
           # cache의 대상을 정한다.
           path: "**/node_modules"
           # 무효화의 기준이 되는 cache의 key를 정한다.
-          key: ${{ runner.os }}-${{ env.CACHE_KEY_LABLE }}-${{ hashFiles(format('{0}/package-lock.json')) }}
+          key: ${{ runner.os }}-${{ env.CACHE_KEY_LABLE }}-${{ hashFiles('package-lock.json') }}
           # key가 깨졌을때 복구하는 방법 명시, "${{ runner.os }}-node-" 와 일치하는 캐시를 가져와 사용한다.
           restore-keys: ${{ runner.os }}-node-
 
