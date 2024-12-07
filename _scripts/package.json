@@ -1,0 +1,37 @@
+{
+  "name": "notion-to-jekyll-md",
+  "version": "0.0.1",
+  "license": "UNLICENSED",
+  "engines": {
+    "node": "20.15.x"
+  },
+  "scripts": {
+    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
+    "build": "tsc --project tsconfig.json",
+    "start:dev": "dotenv -e .env -- ts-node -r tsconfig-paths/register -- ./src",
+    "start:debug": "npm run build && dotenv -e .env -- node --inspect ./dist"
+  },
+  "dependencies": {
+    "@notionhq/client": "^1.0.4",
+    "axios": "^1.4.0",
+    "moment": "^2.29.2",
+    "node-fetch": "^2.6.7",
+    "notion-to-md": "^2.5.5"
+  },
+  "devDependencies": {
+    "@types/node-fetch": "^2.6.2",
+    "@types/node": "^20.15.0",
+    "@typescript-eslint/eslint-plugin": "^8.17.0",
+    "@typescript-eslint/parser": "^8.17.0",
+    "eslint": "^9.16.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "prettier": "^3.4.2",
+    "ts-loader": "^9.5.1",
+    "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.7.2",
+    "dotenv-cli": "^7.4.4"
+  }
+}

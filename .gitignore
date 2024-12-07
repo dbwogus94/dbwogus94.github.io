@@ -25,3 +25,11 @@ node_modules
 # Misc
 _sass/vendors
 assets/js/dist
+
+# OS
+.DS_Store
+
+## env
+**/env
+/env
+*.env
