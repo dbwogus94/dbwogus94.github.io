@@ -86,9 +86,16 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          ref: main
           # submodules: true
           # If using the 'assets' git submodule from Chirpy Starter, uncomment above
           # (See: https://github.com/cotes2020/chirpy-starter/tree/main/assets)
+
+      # notionToJekyllMd에서 생성된 파일들을 가져오기 위해 최신 상태로 업데이트
+      - name: Pull latest changes
+        run: |
+          git pull origin main
+          git status
 
       - name: Setup Pages
         id: pages
