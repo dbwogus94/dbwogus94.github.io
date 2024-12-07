@@ -6,8 +6,10 @@ const fs = require('fs');
 const axios = require('axios');
 
 const env = {
-    NOTION_TOKEN: process.env.NOTION_TOKEN ?? '',
-    DATABASE_ID: process.env.DATABASE_ID ?? '',
+    NOTION_TOKEN:
+        process.env.NOTION_TOKEN ??
+        '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',
+    DATABASE_ID: process.env.DATABASE_ID ?? '1528dbc2842281359b1dcf34ec07724d',
 };
 
 const notion = new Client({
@@ -187,21 +189,23 @@ title: "${title}"${fmtags}${fmcats}
         }
         md = escapeCodeBlock(md);
         md = replaceTitleOutsideRawBlocks(md);
+
         // 노션 아티클 title to 마크다운 파일명
+        const ftitle = `${date}-${title.replaceAll(' ', '-')}.md`;
 
-        const ftitle = `${date}-${title
-            .replaceAll(' ', '-')
-            .replace(/[\[\]\(\)\|]/g, '')}.md`;
-
-        // 이미지 markdown regex
-        const IMAGE_MARKDOWN_REGEX = /!\[(.*?)\]\((.*?)\)/g;
+        /** 마크다운에서 문제가 될 수 있는 특수문자: [], (), |, ?, !, @, #, $, %, ^, &, *, +, =, ;, :, ", ', <, >, , */
+        const INVALID_FILENAME_CHARS =
+            /[\[\]\(\)\|\?\!\@\#\$\%\^\&\*\+\=\;\:\"\'\<\>\,]/g;
+        const imagePrefix = ftitle.replace(INVALID_FILENAME_CHARS, '');
 
         /* 3. 노션 아티클에 포함된 이미지 다운로드 로직 */
         let index = 0;
         const downloadPromises = [];
+        // 이미지 markdown regex
+        const IMAGE_MARKDOWN_REGEX = /!\[(.*?)\]\((.*?)\)/g;
         // 이미지 markdown 치환하면서 이미지 다운로드 요청목록 생성
         let edited_md = md.replace(IMAGE_MARKDOWN_REGEX, (_, p1, p2) => {
-            const dirname = path.join('assets/img', ftitle);
+            const dirname = path.join('assets/img', imagePrefix);
             // 디렉토리 생성
             if (!fs.existsSync(dirname))
                 fs.mkdirSync(dirname, { recursive: true });
