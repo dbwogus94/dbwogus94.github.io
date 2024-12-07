@@ -38,16 +38,16 @@ categories: [시리즈, 프로젝트, ]
 **정상 로그 -** **`v0.0.65-beta.0`** **배포 로그** 
 
 
-	![1](/assets/img/2024-06-29-프로젝트--똑소-github-actions-개발-배포에서-운영의-runner-호출하는-이슈-발생.md/1.png)
+![1](/assets/img/2024-06-29-프로젝트--똑소-github-actions-개발-배포에서-운영의-runner-호출하는-이슈-발생.md/1.png)
 
-	- 배포로 트리거된 Self Hosted Runner name이 `ddocso-dev-server`인 것을 볼 수 있다.
+- 배포로 트리거된 Self Hosted Runner name이 `ddocso-dev-server`인 것을 볼 수 있다.
 
 **비정상 로그 -** **`v1.0.0-beta.0`** **배포 로그**
 
 
-	![2](/assets/img/2024-06-29-프로젝트--똑소-github-actions-개발-배포에서-운영의-runner-호출하는-이슈-발생.md/2.png)
+![2](/assets/img/2024-06-29-프로젝트--똑소-github-actions-개발-배포에서-운영의-runner-호출하는-이슈-발생.md/2.png)
 
-	- 배포로 트리거된 Self Hosted Runner name이 `api-prod`인 것을 볼 수 있다.
+- 배포로 트리거된 Self Hosted Runner name이 `api-prod`인 것을 볼 수 있다.
 
 
 ### 2. 이슈 원인 확인
@@ -67,36 +67,36 @@ categories: [시리즈, 프로젝트, ]
 3. 운영 서버의 경우 추가적인 label을 부여했고, 개발서버의 경우 default(`self-hosted`, `Linux`, `X64`) 로 생성된 label만 사용했다. (label 지정은 self hosted runner 설치시 부여한다.)
 
 - 운영 러너에 부여된 라벨: [`self-hosted`, `Linux`, `X64`, **`api-prod`**]
+undefined
 
-	
 {% raw %}
 ```yaml
-	deploy:
-	  needs: build
-	  name: Deploy
-	runs-on: [self-hosted, api-prod]
+deploy:
+  needs: build
+  name: Deploy
+runs-on: [self-hosted, api-prod]
 ```
 {% endraw %}
 
 
 
-	![3](/assets/img/2024-06-29-프로젝트--똑소-github-actions-개발-배포에서-운영의-runner-호출하는-이슈-발생.md/3.png)
+![3](/assets/img/2024-06-29-프로젝트--똑소-github-actions-개발-배포에서-운영의-runner-호출하는-이슈-발생.md/3.png)
 
 - 개발 러너에 부여된 라벨: [`self-hosted`, `Linux`, `X64`]
 
-	
+
 {% raw %}
 ```yaml
-	deploy:
-	  needs: build
-	  name: Deploy
-	runs-on: [self-hosted]
+deploy:
+  needs: build
+  name: Deploy
+runs-on: [self-hosted]
 ```
 {% endraw %}
 
 
 
-	![4](/assets/img/2024-06-29-프로젝트--똑소-github-actions-개발-배포에서-운영의-runner-호출하는-이슈-발생.md/4.png)
+![4](/assets/img/2024-06-29-프로젝트--똑소-github-actions-개발-배포에서-운영의-runner-호출하는-이슈-발생.md/4.png)
 
 
 
