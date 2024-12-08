@@ -18,12 +18,12 @@ timezone: Asia/Seoul
 # jekyll-seo-tag settings › https://github.com/jekyll/jekyll-seo-tag/blob/master/docs/usage.md
 # ↓ --------------------------
 
-title: jay-blog # the main title
+title: Jay Dev Note # the main title
 
-tagline: 우리는 모두 친구 # it will display as the subtitle
+tagline: 우리는 모두 친구, 제 기록이 도움되기를 바랍니다.😁 # it will display as the subtitle
 
 description: >- # used by seo meta and the atom feed
-  우리는 모두 친구
+  우리는 모두 친구, 제 기록이 도움되기를 바랍니다.😁
 
 # Fill in the protocol & hostname for your site.
 # E.g. 'https://username.github.io', note that it does not end with a '/'.
@@ -76,6 +76,8 @@ analytics:
     id: # fill in your Cloudflare Web Analytics token
   fathom:
     id: # fill in your Fathom Site ID
+
+google_site_verification: "DAH5CYXs3zXESXAdLplFoylu-Fz-bhPbknSjx2DIhB4"
 
 # Page views settings
 pageviews:

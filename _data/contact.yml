@@ -15,13 +15,16 @@
   noblank: true
 # Uncomment and complete the url below to enable more contact options
 #
+- type: linkedin
+  icon: "fab fa-linkedin" # icons powered by <https://fontawesome.com/>
+  url: "https://www.linkedin.com/in/dev-jaehyun-yoo/" # Fill with your Linkedin homepage
+
+- type: notion
+  icon: "fa-solid fa-rocket"
+  url: "https://jaehyun0119.notion.site/1528dbc2842281359b1dcf34ec07724d?v=1528dbc2842281dc8f42000c96fa2872"
 # - type: mastodon
 #   icon: 'fab fa-mastodon'   # icons powered by <https://fontawesome.com/>
 #   url:  ''                  # Fill with your Mastodon account page, rel="me" will be applied for verification
-#
-# - type: linkedin
-#   icon: 'fab fa-linkedin'   # icons powered by <https://fontawesome.com/>
-#   url:  ''                  # Fill with your Linkedin homepage
 #
 # - type: stack-overflow
 #   icon: 'fab fa-stack-overflow'
