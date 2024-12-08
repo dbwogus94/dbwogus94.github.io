@@ -46,24 +46,24 @@ AWS에서 프리티어로 제공하는 `EC2`를 사용하고 있다. (1코어, R
 - 기본 설치되어 있는 버전: `node 16`, `node 16-alpine`, `node 20`, `node 20-alpine`
 - 개발환경과 동일한 `v18.14.2` 버전을 사용하기 때문에 기본 설치 버전은 필요가 없다.
 
-	
+
 {% raw %}
 ```javascript
-	- name: Use Node.js v18.14.2
-	  uses: actions/setup-node@v3
-	  with:
-	    node-version: v18.14.2
+- name: Use Node.js v18.14.2
+  uses: actions/setup-node@v3
+  with:
+    node-version: v18.14.2
 ```
 {% endraw %}
 
 
-	- `Use Node.js v18.14.2`에서 셋팅된 node 버전을 다운로드 수행하는 로그 스크린샷
+- `Use Node.js v18.14.2`에서 셋팅된 node 버전을 다운로드 수행하는 로그 스크린샷
 
-		![2](/assets/img/2023-10-10-프로젝트--붐빔-프리티어-EC2에서-self-host-runner가-디스크를-과도하게-사용하는-문제.md/2.png)
+	![2](/assets/img/2023-10-10-프로젝트--붐빔-프리티어-EC2에서-self-host-runner가-디스크를-과도하게-사용하는-문제.md/2.png)
 
-	- `Use Node.js v18.14.2` 캐시된 node 버전을 사용하는 로그 스크린샷
+- `Use Node.js v18.14.2` 캐시된 node 버전을 사용하는 로그 스크린샷
 
-		![3](/assets/img/2023-10-10-프로젝트--붐빔-프리티어-EC2에서-self-host-runner가-디스크를-과도하게-사용하는-문제.md/3.png)
+	![3](/assets/img/2023-10-10-프로젝트--붐빔-프리티어-EC2에서-self-host-runner가-디스크를-과도하게-사용하는-문제.md/3.png)
 
 
 **[제거 후 용량 확인]**
@@ -105,44 +105,36 @@ AWS에서 프리티어로 제공하는 `EC2`를 사용하고 있다. (1코어, R
 
 	![6](/assets/img/2023-10-10-프로젝트--붐빔-프리티어-EC2에서-self-host-runner가-디스크를-과도하게-사용하는-문제.md/6.png)
 
-<details>
-  <summary>`Post Cache node_module` 에러 로그</summary>
+	- `Post Cache node_module` 에러 로그
 
-
-
+	
 {% raw %}
 ```yaml
-Error: The template is not valid. 
-.github/workflows/deploy.yaml (Line: 83, Col: 16): 
-An error occurred trying to start process 
-'/home/ubuntu/actions-runner/externals/node16/bin/node' 
-with working directory 
-'/home/ubuntu/actions-runner/_work/heat-it-be/heat-it-be'. 
-No such file or directory
+	Error: The template is not valid. 
+	.github/workflows/deploy.yaml (Line: 83, Col: 16): 
+	An error occurred trying to start process 
+	'/home/ubuntu/actions-runner/externals/node16/bin/node' 
+	with working directory 
+	'/home/ubuntu/actions-runner/_work/heat-it-be/heat-it-be'. 
+	No such file or directory
+```
+{% endraw %}
+
+
+	- `Post Checkout actions Repository` 에러 로그
+
+	
+{% raw %}
+```yaml
+	Post job cleanup.
+	Error: An error occurred trying to start process 
+	'/home/ubuntu/actions-runner/externals/node16/bin/node' with working directory 
+	'/home/ubuntu/actions-runner/_work/heat-it-be/heat-it-be'. No such file or directory
 ```
 {% endraw %}
 
 
 
-
-  </details><details>
-  <summary>`Post Checkout actions Repository` 에러 로그</summary>
-
-
-
-{% raw %}
-```yaml
-Post job cleanup.
-Error: An error occurred trying to start process 
-'/home/ubuntu/actions-runner/externals/node16/bin/node' with working directory 
-'/home/ubuntu/actions-runner/_work/heat-it-be/heat-it-be'. No such file or directory
-```
-{% endraw %}
-
-
-
-
-  </details>
 	문제 1)  `deploy.yaml` 없음
 
 	- working directory를 제거하면서 `.github/workflows/deploy.yaml`가 유실됨
