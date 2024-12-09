@@ -48,6 +48,19 @@ const replaceTitleOutsideRawBlocks = (body: string) => {
 };
 
 /**
+ * 노션 내부 링크 URL 변환
+ * @param {string} body
+ * @returns {string}
+ */
+const replaceNotionInternalLinks = (body: string) => {
+  // 마크다운 링크 패턴: [텍스트](/로 시작하는 URL)
+  const regex = /\[(.*?)\]\(\/([a-zA-Z0-9]{32})\)/g;
+  return body.replace(regex, (_, text, pageId) => {
+    return `[${text}](https://www.notion.so/${pageId})`;
+  });
+};
+
+/**
  * 스트림으로 이미지 다운로드
  * @param url
  * @param filename
@@ -95,6 +108,10 @@ const runProcess = async () => {
       checkbox: {
         equals: true,
       },
+      // property: '게시물',
+      // title: {
+      //   equals: '[프로젝트 | 똑소] 3. 프로젝트 초기 셋팅 - 보일러플레이드',
+      // },
     },
   });
 
@@ -189,8 +206,9 @@ title: "${title}"${fmtags}${fmcats}
     if (md === '' || md == null) {
       continue;
     }
-    md = escapeCodeBlock(md);
-    md = replaceTitleOutsideRawBlocks(md);
+    md = escapeCodeBlock(md); // 코드 블록 이스케이프
+    md = replaceTitleOutsideRawBlocks(md); // 타이틀 치환: H1 -> H2
+    md = replaceNotionInternalLinks(md); // 노션 내부 링크 URL 변환
 
     // 노션 아티클 title to 마크다운 파일명
     const ftitle = `${date}-${title.replaceAll(' ', '-')}.md`;
@@ -298,5 +316,5 @@ const moveDirectories = async () => {
 
 export const main = async () => {
   await runProcess();
-  await moveDirectories();
+  // await moveDirectories();
 };
