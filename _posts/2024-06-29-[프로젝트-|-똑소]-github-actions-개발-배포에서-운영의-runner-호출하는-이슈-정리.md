@@ -3,7 +3,7 @@ layout: post
 date: 2024-06-29
 title: "[프로젝트 | 똑소] github actions 개발 배포에서 운영의 runner 호출하는 이슈 정리"
 tags: [github-action, issue, ddokso, ]
-categories: [시리즈, 프로젝트, ]
+categories: [프로젝트, 똑소, ]
 ---
 
 

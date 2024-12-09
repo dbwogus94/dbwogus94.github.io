@@ -3,7 +3,7 @@ layout: post
 date: 2023-10-07
 title: "[프로젝트 | 붐빔] 프리티어 EC2에서 self-host runner 빌드시 ec2 죽는 문제"
 tags: [AWS, github-action, boobim, issue, ]
-categories: [시리즈, 프로젝트, ]
+categories: [프로젝트, 붐빔, ]
 ---
 
 

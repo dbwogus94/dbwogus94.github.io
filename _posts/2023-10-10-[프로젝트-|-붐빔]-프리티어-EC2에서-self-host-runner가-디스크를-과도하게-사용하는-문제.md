@@ -3,7 +3,7 @@ layout: post
 date: 2023-10-10
 title: "[프로젝트 | 붐빔] 프리티어 EC2에서 self-host runner가 디스크를 과도하게 사용하는 문제"
 tags: [AWS, github-action, boobim, ]
-categories: [시리즈, 프로젝트, ]
+categories: [프로젝트, 붐빔, ]
 ---
 
 
