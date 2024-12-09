@@ -13,8 +13,12 @@ import axios from 'axios';
  */
 const escapeCodeBlock = (body) => {
   const regex = /```([\s\S]*?)```/g;
-  return body.replace(regex, (_, htmlBlock) => {
-    return '\n{% raw %}\n```' + htmlBlock.trim() + '\n```\n{% endraw %}\n';
+  return body.replace(regex, (_, codeBlock) => {
+    if (codeBlock.trim().startsWith('mermaid')) {
+      // mermaid 코드 블록은 raw 태그를 사용하지 않음
+      return '\n```' + codeBlock.trim() + '\n```\n';
+    }
+    return '\n{% raw %}\n```' + codeBlock.trim() + '\n```\n{% endraw %}\n';
   });
 };
 
