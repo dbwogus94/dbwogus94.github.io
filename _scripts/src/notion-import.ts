@@ -316,5 +316,5 @@ const moveDirectories = async () => {
 
 export const main = async () => {
   await runProcess();
-  // await moveDirectories();
+  await moveDirectories();
 };
