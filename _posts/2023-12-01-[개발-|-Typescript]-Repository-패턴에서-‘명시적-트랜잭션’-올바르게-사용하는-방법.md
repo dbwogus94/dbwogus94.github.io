@@ -130,23 +130,12 @@ export class UserService  {
   async softRemoveUser(userId: number): Promise<void> {
     const user = await this.userRepo.findOneByPK(userId);
     if (!user) throw new NotFoundException(errorMessage.E404_APP_001);
-
-    const queryRunner = this.connection.createQueryRunner();
-    const txManager = queryRunner.manager;
-    await queryRunner.connect();
-    await queryRunner.startTransaction();
-    try {
+		
+	  await this.dataSource.transaction(async (txManager) => {
 			// 유저와 유저가 가진 피드 리스트 제거
 	    **await this.userRepo.softDelete(user.id, txManager); 
 	    await this.feedRepo.softDeleteByUserId(user.id, txManager);**
-	    
-      await queryRunner.commitTransaction();
-    } catch (error) {
-      await queryRunner.rollbackTransaction();
-      throw error;
-    } finally {
-      await queryRunner.release();
-    }
+	  });
   }
 }
 ```
@@ -399,31 +388,20 @@ export class UserService  {
   ) { }
   
   /** Delete User, Delete Feeds는 하나의 트랜잭션을 사용한다. */
-  async softRemoveUser(userId: number): Promise<void> {
-		const user = await this.userRepo.findOneByPK(userId);
-		if (!user) throw new NotFoundException(errorMessage.E404_APP_001);
-		
-		const queryRunner = this.dataSource.createQueryRunner();
-		const manager = queryRunner.manager;
-		await queryRunner.connect();
-		await queryRunner.startTransaction();
-		try {
-		  // 같은 트랜잭션을 사용하는 Custom Repository를 생성한다.
-		  **const txUserRepo = this.userRepo.createTransactionRepo(manager);
-		  const txFeedRepo = this.feedRepo.createTransactionRepo(manager);**
-		
+	async softRemoveUser(userId: number): Promise<void> {
+    const user = await this.userRepo.findOneByPK(userId);
+    if (!user) throw new NotFoundException(errorMessage.E404_APP_001);
+
+    await this.dataSource.transaction(async (txManager) => {
+ 		  // 같은 트랜잭션을 사용하는 Custom Repository를 생성한다.
+      **const txUserRepo = this.userRepo.createTransactionRepo(txManager);
+      const txFeedRepo = this.feedRepo.createTransactionRepo(txManager);**
+
 			// 이제 모두 같은 커낵션에서 트랜잭션이 된다.
-		  await txUserRepo.softDelete(user.id);
-		  await txFeedRepo.softDeleteByUserId(user.id);
-		  
-		  await queryRunner.commitTransaction();
-		} catch (error) {
-		  await queryRunner.rollbackTransaction();
-		  throw error;
-		} finally {
-		  await queryRunner.release();
-	  }
-	}
+      await txUserRepo.softDelete(user.id);
+      await txFeedRepo.softDeleteByUserId(user.id);
+    });
+  }
 }
 ```
 {% endraw %}
