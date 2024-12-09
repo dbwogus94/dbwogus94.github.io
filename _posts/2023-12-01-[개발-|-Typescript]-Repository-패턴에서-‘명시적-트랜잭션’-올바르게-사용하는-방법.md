@@ -147,26 +147,28 @@ export class UserService  {
 인자로 전달해야 합니다.
 - 이때 만약 개발자의 실수로 `manager`를 전달하지 않으면 어떻게 될까요?
 
-	
+
 {% raw %}
 ```typescript
-	// case 1
-	await this.userRepo.softDelete(user.id);
-	await this.feedRepo.softDeleteByUserId(user.id);
-	
-	// case 2
-	await this.userRepo.softDelete(user.id, manager);
-	await this.feedRepo.softDeleteByUserId(user.id);
-	
-	// case 3
-	await this.userRepo.softDelete(user.id);
-	await this.feedRepo.softDeleteByUserId(user.id, manager);
+// case 1
+await this.userRepo.softDelete(user.id);
+await this.feedRepo.softDeleteByUserId(user.id);
+
+// case 2
+await this.userRepo.softDelete(user.id, manager);
+await this.feedRepo.softDeleteByUserId(user.id);
+
+// case 3
+await this.userRepo.softDelete(user.id);
+await this.feedRepo.softDeleteByUserId(user.id, manager);
 ```
 {% endraw %}
 
 
-	- 모두 다른 커넥션을 사용하기 때문에 트랜잭션은 깨지게 됩니다.
 
+⇒ 모두 다른 커넥션을 사용하기 때문에 트랜잭션은 깨지게 됩니다.
+
+undefined
 위의 예시처럼 선언적 트랜잭션을 단순히 사용하기에는 불편한 점이 많습니다.
 
 1. Custom Repository 매서드 마다, manager를 받을 수 있도록 셋팅해야한다.
@@ -190,86 +192,83 @@ typeorm 공식문서에서는 Custom Repository를 Class 방식이 아닌 typeor
 공식문서에 나온 예제 코드입니다.
 
 
-	[bookmark](https://typeorm.io/custom-repository#how-to-create-custom-repository)
+[bookmark](https://typeorm.io/custom-repository#how-to-create-custom-repository)
 
 
-	
+
 {% raw %}
 ```typescript
-	// user.repository.ts
-	export const UserRepository = dataSource.getRepository(User).extend({
-	    findByName(firstName: string, lastName: string) {
-	        return this.createQueryBuilder("user")
-	            .where("user.firstName = :firstName", { firstName })
-	            .andWhere("user.lastName = :lastName", { lastName })
-	            .getMany()
-	    },
-	})
-	
-	// user.controller.ts
-	export class UserController {
-	    users() {
-	        return UserRepository.findByName("Timber", "Saw")
-	    }
-	}
+// user.repository.ts
+export const UserRepository = dataSource.getRepository(User).extend({
+    findByName(firstName: string, lastName: string) {
+        return this.createQueryBuilder("user")
+            .where("user.firstName = :firstName", { firstName })
+            .andWhere("user.lastName = :lastName", { lastName })
+            .getMany()
+    },
+})
+
+// user.controller.ts
+export class UserController {
+    users() {
+        return UserRepository.findByName("Timber", "Saw")
+    }
+}
 ```
 {% endraw %}
 
 
-	- 이 방법으로 Custom Repository를 class 방식으로 사용하기에는 한계가 있었습니다.
+- 이 방법으로 Custom Repository를 class 방식으로 사용하기에는 한계가 있었습니다.
 
-그래도 혹시 모르니 `Repository.extend()` 구현 코드를 확인 해보겠습니다.
-
-
-	[link_preview](https://github.com/typeorm/typeorm/blob/master/src/repository/Repository.ts#L697)
+그래도 혹시 모르니 Tyeporm의 [`Repository.extend()`](https://github.com/typeorm/typeorm/blob/master/src/repository/Repository.ts#L697) 구현 코드를 확인 해보겠습니다.
 
 
-	
+
 {% raw %}
 ```typescript
-	/**
-	 * Extends repository with provided functions.
-	 */
-	extend<CustomRepository>(
-	    customs: CustomRepository & ThisType<this & CustomRepository>,
-	): this & CustomRepository {
-	    // return {
-	    //     ...this,
-	    //     ...custom
-	    // };
-	    const thisRepo: any = this.constructor
-	    const { target, manager, queryRunner } = this
-	    const ChildClass = class extends thisRepo {
-	        constructor(
-	            target: EntityTarget<Entity>,
-	            manager: EntityManager,
-	            queryRunner?: QueryRunner,
-	        ) {
-	            super(target, manager, queryRunner)
-	        }
-	    }
-	    for (const custom in customs)
-	        ChildClass.prototype[custom] = customs[custom]
-	    return new ChildClass(target, manager, queryRunner) as any
-	}
+/**
+ * Extends repository with provided functions.
+ */
+extend<CustomRepository>(
+    customs: CustomRepository & ThisType<this & CustomRepository>,
+): this & CustomRepository {
+    // return {
+    //     ...this,
+    //     ...custom
+    // };
+    const thisRepo: any = this.constructor
+    const { target, manager, queryRunner } = this
+    const ChildClass = class extends thisRepo {
+        constructor(
+            target: EntityTarget<Entity>,
+            manager: EntityManager,
+            queryRunner?: QueryRunner,
+        ) {
+            super(target, manager, queryRunner)
+        }
+    }
+    for (const custom in customs)
+        ChildClass.prototype[custom] = customs[custom]
+    return new ChildClass(target, manager, queryRunner) as any
+}
 ```
 {% endraw %}
 
 
-	- 위의 코드는 단순합니다.
-		1. 현재 인스턴스(Repository)의 생성자를 가져온다
-		⇒ `const thisRepo: any = this.constructor`
-		2. 현재 인스턴스의 커넥션 정보를 가져온다
-		⇒  `const { target, manager, queryRunner } = this`
-		3. 현재 인스턴스를 상속하는 자식 클래스를 만든다.
-		⇒ `const ChildClass = class extends thisRepo { … }`
-		4. 생성된 자식클래스에 전달 받은 확장된 기능들을 추가한다.
-		⇒ `for (const custom in customs)`
-		        `ChildClass.prototype[custom] = customs[custom]`
-		5. 자식클래스를 사용하여 인스턴스를 생성한다. 이때 현재 인스턴스의 커넥션 정보를 넣는다.
-		⇒ `return new ChildClass(target,` **`manager`**`, queryRunner) as any`
-	- 즉, 인자로 받은 **기능을 추가한 새로운 Repository 인스턴스를 만들어 리턴** 합니다.
-		- 이때 커넥션 정보를 생성된 인스턴스에 전달하여 **동일한 커넥션을 사용**하게 합니다.
+- 위의 코드는 단순합니다.
+	1. 현재 인스턴스(Repository)의 생성자를 가져온다
+	⇒ `const thisRepo: any = this.constructor`
+	2. 현재 인스턴스의 커넥션 정보를 가져온다
+	⇒  `const { target, manager, queryRunner } = this`
+	3. 현재 인스턴스를 상속하는 자식 클래스를 만든다.
+	⇒ `const ChildClass = class extends thisRepo { … }`
+	4. 생성된 자식클래스에 전달 받은 확장된 기능들을 추가한다.
+	⇒ `for (const custom in customs)`
+	        `ChildClass.prototype[custom] = customs[custom]`
+	5. 자식클래스를 사용하여 인스턴스를 생성한다. 이때 현재 인스턴스의 커넥션 정보를 넣는다.
+	⇒ `return new ChildClass(target,` **`manager`**`, queryRunner) as any`
+- 즉, 인자로 받은 **기능을 추가한 새로운 Repository 인스턴스를 만들어 리턴** 합니다.
+	- 이때 커넥션 정보를 생성된 인스턴스에 전달하여 **동일한 커넥션을 사용**하게 합니다.
 
 
 #### 3.2. Custom Repository class를 위한 `BaseRepository` 선언
