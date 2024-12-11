@@ -4,6 +4,7 @@ date: 2023-12-01
 title: "[개발 | Typescript] Repository 패턴에서 ‘명시적 트랜잭션’ 올바르게 사용하는 방법"
 tags: [TS, Typeorm, 트랜잭션, ]
 categories: [백엔드, TS, ]
+mermaid: true
 ---
 
 

@@ -4,6 +4,7 @@ date: 2024-11-15
 title: "[개발 | 이론] Mysql 인덱스을 적용을 위한 다양한 관점 (with 콘서트 예매 서비스)"
 tags: [MySQL, 인덱스, 항해, 보고서, ]
 categories: [백엔드, 이론, ]
+mermaid: true
 ---
 
 
