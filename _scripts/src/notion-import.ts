@@ -196,6 +196,7 @@ const runProcess = async () => {
 layout: post
 date: ${date}
 title: "${title}"${fmtags}${fmcats}
+mermaid: true
 ---
 
 `;
