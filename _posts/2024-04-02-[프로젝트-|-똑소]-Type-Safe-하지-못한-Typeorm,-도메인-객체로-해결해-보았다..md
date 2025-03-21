@@ -1,7 +1,7 @@
 ---
 layout: post
-date: 2024-04-01
-title: "[프로젝트 | 똑소] 5. Type Safe 하지 못한 Typeorm, 도메인 객체로 해결해 보았다."
+date: 2024-04-02
+title: "[프로젝트 | 똑소] Type Safe 하지 못한 Typeorm, 도메인 객체로 해결해 보았다."
 tags: [아키텍처, Typeorm, ]
 categories: [프로젝트, 똑소, ]
 mermaid: true
@@ -24,7 +24,7 @@ API서버, 웹서버, WAS서버 등등 다양한 서버가 있지만 서버는 �
 유저가 바라보는 상품 UI는 다양할 수 있지만, API 서버 입장에서는 **상품이라는 자원을 응답하는 것에 불과합니다.**
 
 
-![0](/assets/img/2024-04-01-프로젝트--똑소-5.-Type-Safe-하지-못한-Typeorm-도메인-객체로-해결해-보았다..md/0.png)_위 API에서는 모두 상품리스트에 필요한 “상품” 자원을 응답합니다._
+![0](/assets/img/2024-04-02-프로젝트--똑소-Type-Safe-하지-못한-Typeorm-도메인-객체로-해결해-보았다..md/0.png)_위 API에서는 모두 상품리스트에 필요한 “상품” 자원을 응답합니다._
 
 
 그렇다면 API 서버는 상품이라는 자원을 UI에 보이는 그대로 보관하고 있을까요? 
@@ -32,7 +32,7 @@ UI에 필요한 데이터를 그대로 들고 있다면 정말 좋겠지만, 일
 
 - API 서버에서 제공하는 **상품은** 여러 테이블 데이터의 조합입니다.
 
-![1](/assets/img/2024-04-01-프로젝트--똑소-5.-Type-Safe-하지-못한-Typeorm-도메인-객체로-해결해-보았다..md/1.png)_product 관련 일부 ERD_
+![1](/assets/img/2024-04-02-프로젝트--똑소-Type-Safe-하지-못한-Typeorm-도메인-객체로-해결해-보았다..md/1.png)_product 관련 일부 ERD_
 
 
 
@@ -43,7 +43,7 @@ API 서버에서는 '상품' 하나를 표현하기 위해 여러 테이블의 �
 
 - RDBMS의 `product`와 API 서버의 `Product` 객체
 
-![2](/assets/img/2024-04-01-프로젝트--똑소-5.-Type-Safe-하지-못한-Typeorm-도메인-객체로-해결해-보았다..md/2.png)
+![2](/assets/img/2024-04-02-프로젝트--똑소-Type-Safe-하지-못한-Typeorm-도메인-객체로-해결해-보았다..md/2.png)
 
 
 상품 API에서 상품을 응답하는 모든 로직에서는 아래와 같은 작업이 반복됩니다.
@@ -306,7 +306,7 @@ class Product {
 #### 2.3. 실제 구현한 코드를 통해 동작 확인
 
 
-![3](/assets/img/2024-04-01-프로젝트--똑소-5.-Type-Safe-하지-못한-Typeorm-도메인-객체로-해결해-보았다..md/3.png)
+![3](/assets/img/2024-04-02-프로젝트--똑소-Type-Safe-하지-못한-Typeorm-도메인-객체로-해결해-보았다..md/3.png)
 
 1. `ProductRepository`: Product Entity를 사용하는 orm 로직을 격리하고 모듈화합니다.
 
