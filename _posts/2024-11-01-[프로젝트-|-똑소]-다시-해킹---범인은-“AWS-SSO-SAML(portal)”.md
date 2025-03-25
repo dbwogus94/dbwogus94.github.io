@@ -175,7 +175,7 @@ urn:oasis:names:tc:SAML:2.0:nameid-format:persistent
 
 
 
-#### 2.3. (추가) IAM 역할에서 [`cognito-identity.amazon`](http://cognito-identity.amazon/) 실뢰할 수 있는 객체의 의미
+#### 2.3. (추가) IAM 역할에서 `cognito-identity.amazon` 실뢰할 수 있는 객체의 의미
 
 
 `cognito-identity.amazon`가 신뢰할 수 있는 객체라고 모두 문제인건 아니다. 
