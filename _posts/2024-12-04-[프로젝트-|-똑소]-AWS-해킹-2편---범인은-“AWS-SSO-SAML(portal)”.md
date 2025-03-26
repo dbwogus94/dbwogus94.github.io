@@ -26,7 +26,7 @@ mermaid: true
 
 
 {% raw %}
-```yaml
+```json
 {
     "taskDefinitionArn": "arn:aws:ecs:ap-northeast-2:xxxx:task-definition/CcmZoAgVMpOVoHTKySQUumIsm:1",
     "containerDefinitions": [
@@ -82,13 +82,10 @@ mermaid: true
 ### 2. 원인 찾기
 
 
-처음에는 많이 당황했다. AWS IAM의 사용자와 역할을 모두 정리했고, 모든 사용자의 Password를 변경하고 2차 인증인 MFA까지 설정했기 때문이다. 
+처음에는 많이 당황했다. AWS IAM의 사용자와 역할을 모두 정리했고, 모든 사용자의 Password를 변경하고 2차 인증인 MFA까지 설정했기 때문이다. 그럼에도 해킹범은 console로 들어와서 iam 역할 신규로 만들고 그 역할로 다시 ECS를 활성화 시켰다. 
 
 
-그럼에도 해킹범은 console로 들어와서 iam 역할 신규로 만들고 그 역할로 다시 ECS를 활성화 시켰다. 
-
-
-어떻게 들어왔을까?  다행히 `CloudTrail`에서 단서를 찾을 수 있었다.
+**어떻게 들어왔을까?**  다행히 `CloudTrail`에서 단서를 찾을 수 있었다.
 
 
 **범인은** **`AWS SSO SAML`** **때문이었다.**
@@ -102,10 +99,7 @@ mermaid: true
 > 출처: [AWS | ](https://aws.amazon.com/what-is/sso/)[**SSO(Single Sign On)란 무엇인가요?**](https://aws.amazon.com/what-is/sso/)[ ](https://aws.amazon.com/what-is/sso/)
 
 
-쉽게 말하면 Password를 사용해서 매번 인증을 하는 것은 위험할 수 있기 때문에 Password 없이 로그인 가능한 수단을 제공하는 기술이다.
-
-
-대표적으로 구글 로그인, 네이버 로그인 같은 `OAuth`가 여기에 포함된다.
+쉽게 말하면 Password를 사용해서 매번 인증을 하는 것은 위험할 수 있기 때문에 Password 없이 로그인 가능한 수단을 제공하는 기술이다. (대표적으로 구글 로그인, 네이버 로그인 같은 `OAuth`가 여기에 포함된다.)
 
 
 AWS SSO에서 지원하는 유형은 4가지가 있다.
@@ -128,7 +122,7 @@ AWS SSO에서 지원하는 유형은 4가지가 있다.
 ![1](/assets/img/2024-12-04-프로젝트--똑소-AWS-해킹-2편---범인은-“AWS-SSO-SAMLportal”.md/1.png)
 
 
-`AWSSSO_7ff93c0824acf3a0_DO_NOT_DELETE` 엄청 수상한 이름의 공급자가 보인다.
+`AWSSSO_7ff93c0824acf3a0_DO_NOT_DELETE` 많이 수상한 이름의 공급자가 보인다.
 
 
 해당 콘솔에 들어가면 **`AWS SSO SAML`**을 수행하는 XML 파일을 다운 받을 수 있다.
