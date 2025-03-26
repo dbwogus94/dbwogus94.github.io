@@ -1,16 +1,15 @@
 ---
 layout: post
-date: 2025-01-20
-title: "[프로젝트 | 똑소] 다시 해킹 - 범인은 “AWS SSO SAML(portal)”"
+date: 2024-12-04
+title: "[프로젝트 | 똑소] AWS 해킹 2편 - 범인은 “AWS SSO SAML(portal)”"
 tags: [AWS, 해킹, ]
 categories: [프로젝트, 똑소, ]
 mermaid: true
 ---
 
 
-> 💡 해당 포스트는 “[프로젝트 | 똑소] root 권한 탈취로 ECS 순식간에 1000달러 비용 발생” 포스트와 내용이 이어집니다. 
+> 📌 해당 포스트는 “AWS 해킹 1편 - root 권한 해킹, ECS 순식간에 1000달러 비용 발생” 포스트와 내용이 이어집니다.  
 
-- 참고링크: [[프로젝트 | 똑소] root 권한 탈취로 ECS 순식간에 1000달러 비용 발생](https://dbwogus94.github.io/posts/프로젝트-똑소-root-권한-해킹,-ECS-순식간에-1000달러-비용-발생/)
 
 
 ### 1. 24년 11월 01일에 1차 해킹과 동일한 증상 발생을 확인한다.
@@ -19,7 +18,7 @@ mermaid: true
 동일하게 모든 리전의 ECS 클러스터가 20개 이상 생성되어 있는 것을 확인
 
 
-![0](/assets/img/2025-01-20-프로젝트--똑소-다시-해킹---범인은-“AWS-SSO-SAMLportal”.md/0.png)
+![0](/assets/img/2024-12-04-프로젝트--똑소-AWS-해킹-2편---범인은-“AWS-SSO-SAMLportal”.md/0.png)
 
 
 생성된 테스트 권한 정보 확인 - `amplify-login-lambda-b59ae5fe/root`
@@ -27,7 +26,7 @@ mermaid: true
 
 
 {% raw %}
-```typescript
+```yaml
 {
     "taskDefinitionArn": "arn:aws:ecs:ap-northeast-2:xxxx:task-definition/CcmZoAgVMpOVoHTKySQUumIsm:1",
     "containerDefinitions": [
@@ -126,7 +125,7 @@ AWS SSO에서 지원하는 유형은 4가지가 있다.
 #### 2.2. IAM > ID 제공업체에서 **`AWS SSO SAML`** **공급자를 제거하자.**
 
 
-![1](/assets/img/2025-01-20-프로젝트--똑소-다시-해킹---범인은-“AWS-SSO-SAMLportal”.md/1.png)
+![1](/assets/img/2024-12-04-프로젝트--똑소-AWS-해킹-2편---범인은-“AWS-SSO-SAMLportal”.md/1.png)
 
 
 `AWSSSO_7ff93c0824acf3a0_DO_NOT_DELETE` 엄청 수상한 이름의 공급자가 보인다.
@@ -169,7 +168,7 @@ urn:oasis:names:tc:SAML:2.0:nameid-format:persistent
 그리고 XML 파일에 있는 로그인 URL로 페이지에 접근하면 아래와 같은 페이지가 뜬다.
 
 
-![2](/assets/img/2025-01-20-프로젝트--똑소-다시-해킹---범인은-“AWS-SSO-SAMLportal”.md/2.png)
+![2](/assets/img/2024-12-04-프로젝트--똑소-AWS-해킹-2편---범인은-“AWS-SSO-SAMLportal”.md/2.png)
 
 
 지금은 제거해서 들어가지지 않지만 저기에 사용자 이름을 입력하면 자동으로 AWS 콘솔에 로그인이 수행된다.
@@ -186,13 +185,13 @@ urn:oasis:names:tc:SAML:2.0:nameid-format:persistent
 하지만 이번 케이스의 경우 `cognito-identity.amazon` 가 만든 역할은 모두 문제가 되는 역할이다.
 
 
-![3](/assets/img/2025-01-20-프로젝트--똑소-다시-해킹---범인은-“AWS-SSO-SAMLportal”.md/3.png)
+![3](/assets/img/2024-12-04-프로젝트--똑소-AWS-해킹-2편---범인은-“AWS-SSO-SAMLportal”.md/3.png)
 
 
 공식문서를 확인하면 이렇게 나와 있다.
 
 
-![4](/assets/img/2025-01-20-프로젝트--똑소-다시-해킹---범인은-“AWS-SSO-SAMLportal”.md/4.png)
+![4](/assets/img/2024-12-04-프로젝트--똑소-AWS-해킹-2편---범인은-“AWS-SSO-SAMLportal”.md/4.png)
 
 - 참고: [https://docs.aws.amazon.com/ko_kr/awscloudtrail/latest/userguide/cloudtrail-event-reference-user-identity.html#STS-API-SAML-WIF](https://docs.aws.amazon.com/ko_kr/awscloudtrail/latest/userguide/cloudtrail-event-reference-user-identity.html#STS-API-SAML-WIF)
 
@@ -203,7 +202,7 @@ urn:oasis:names:tc:SAML:2.0:nameid-format:persistent
 ### 3. 마무리
 
 
-“IAM > ID 제공업체에서 **`AWS SSO SAML`** **공급자를 제거**” 이후 더 이상의 해킹은 발생하지 않고 있다.
+“IAM > ID 제공업체에서 **`AWS SSO SAML`** **공급자를 제거**” 이후 현재(25년 3월 갱신)까지 더 이상의 해킹은 발생하지 않고 있다.
 
 
 이번에 해킹을 당하면서 AWS에 대한 공부를 실천으로 할 수 있는 기회가 되었지만, 쉽지 않았다.
