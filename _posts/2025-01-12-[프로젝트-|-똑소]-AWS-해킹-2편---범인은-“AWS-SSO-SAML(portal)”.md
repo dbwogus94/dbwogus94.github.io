@@ -11,6 +11,11 @@ mermaid: true
 > 📌 해당 포스트는 “AWS 해킹 1편 - root 권한 해킹, ECS 순식간에 1000달러 비용 발생” 포스트와 내용이 이어집니다.  
 
 
+**🔎 연결문서**
+
+- [AWS 해킹 1편 - root 권한 해킹, ECS 순식간에 1000달러 비용 발생](https://dbwogus94.github.io/posts/%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EB%98%91%EC%86%8C-AWS-%ED%95%B4%ED%82%B9-1%ED%8E%B8-root-%EA%B6%8C%ED%95%9C-%ED%95%B4%ED%82%B9,-ECS-%EC%88%9C%EC%8B%9D%EA%B0%84%EC%97%90-1000%EB%8B%AC%EB%9F%AC-%EB%B9%84%EC%9A%A9-%EB%B0%9C%EC%83%9D/)
+- [AWS 해킹 2편 - 범인은 “AWS SSO SAML(portal)”](https://dbwogus94.github.io/posts/%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EB%98%91%EC%86%8C-AWS-%ED%95%B4%ED%82%B9-2%ED%8E%B8-%EB%B2%94%EC%9D%B8%EC%9D%80-AWS-SSO-SAML(portal)/)
+
 
 ### 1. 24년 11월 01일에 1차 해킹과 동일한 증상 발생을 확인한다.
 
