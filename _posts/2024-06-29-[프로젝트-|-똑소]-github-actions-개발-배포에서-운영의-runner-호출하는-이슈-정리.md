@@ -67,7 +67,7 @@ mermaid: true
 
 3. 운영 서버의 경우 추가적인 label을 부여했고, 개발서버의 경우 default(`self-hosted`, `Linux`, `X64`) 로 생성된 label만 사용했다. (label 지정은 self hosted runner 설치시 부여한다.)
 
-- 운영 러너에 부여된 라벨: [`self-hosted`, `Linux`, `X64`, **`api-prod`**]
+- 운영 러너에 부여된 라벨: `self-hosted`, `Linux`, `X64`, **`api-prod`**
 undefined
 
 {% raw %}
@@ -101,10 +101,12 @@ runs-on: [self-hosted]
 
 
 
-#### 2.2. 문제 원인 추측했다.
+#### 2.2. 문제 원인 추측
 
 
 지난주에 개발서버에 설치된 self hosted runner를 잠시 죽였다가 실행했다. 그리고 개발서버의 self hosted runner를 다시 시작할 때 github에 셋팅된 운영 배포 설정과 매핑된게 아닌가 의심된다.
+
+
 이러한 추측을 하게된 이유는 아래 2가지 공식문서 설명 때문이다.
 
 1. self hosted runner와 github 통신방법
