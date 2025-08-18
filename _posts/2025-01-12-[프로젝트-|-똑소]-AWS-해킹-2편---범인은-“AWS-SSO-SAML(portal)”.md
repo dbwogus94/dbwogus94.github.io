@@ -104,7 +104,7 @@ mermaid: true
 > 출처: [AWS | ](https://aws.amazon.com/what-is/sso/)[**SSO(Single Sign On)란 무엇인가요?**](https://aws.amazon.com/what-is/sso/)[ ](https://aws.amazon.com/what-is/sso/)
 
 
-쉽게 말하면 Password를 사용해서 매번 인증을 하는 것은 위험할 수 있기 때문에 Password 없이 로그인 가능한 수단을 제공하는 기술이다. (대표적으로 구글 로그인, 네이버 로그인 같은 `OAuth`가 여기에 포함된다.)
+쉽게 말하면 Password를 사용해서 매 번 인증을 하는 것은 위험할 수 있기 때문에 Password 없이 로그인 가능한 수단을 제공하는 기술이다. (대표적으로 구글 로그인, 네이버 로그인 같은 `OAuth`가 여기에 포함된다.)
 
 
 AWS SSO에서 지원하는 유형은 4가지가 있다.
@@ -127,7 +127,7 @@ AWS SSO에서 지원하는 유형은 4가지가 있다.
 ![1](/assets/img/2025-01-12-프로젝트--똑소-AWS-해킹-2편---범인은-“AWS-SSO-SAMLportal”.md/1.png)
 
 
-`AWSSSO_7ff93c0824acf3a0_DO_NOT_DELETE` 많이 수상한 이름의 공급자가 보인다.
+`AWSSSO_7ff93c0824acf3a0_DO_NOT_DELETE` 수상한 이름의 공급자가 보인다.
 
 
 해당 콘솔에 들어가면 **`AWS SSO SAML`**을 수행하는 XML 파일을 다운 받을 수 있다.
@@ -175,7 +175,7 @@ urn:oasis:names:tc:SAML:2.0:nameid-format:persistent
 
 
 
-#### 2.3. (추가) IAM 역할에서 `cognito-identity.amazon` 실뢰할 수 있는 객체의 의미
+#### 2.3. (추가) IAM 역할에서 `cognito-identity.amazon` 신뢰할 수 있는 객체의 의미
 
 
 `cognito-identity.amazon`가 신뢰할 수 있는 객체라고 모두 문제인건 아니다. 
