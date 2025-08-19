@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2025-08-18
-title: "[JS] Primitive 타입의 ‘auto-boxes’에 대해 알아보자"
+title: "[언어 | JS] Primitive 타입의 ‘auto-boxes’에 대해 알아보자"
 tags: [JS, 이론, ]
 categories: [언어, JS/TS, ]
 mermaid: true
