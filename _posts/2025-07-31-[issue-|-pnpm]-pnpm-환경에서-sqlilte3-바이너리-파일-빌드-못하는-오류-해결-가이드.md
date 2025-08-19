@@ -70,44 +70,44 @@ perplexity, cursor, claude에게 해결방법을 질문하는 경우 주로 3가
 1. 동일한 npm 프로젝트를 셋팅하고, `sqlite3@5.1.7`를 package.json에 추가합니다.
 2. sqlite와 통신을 테스트 합니다.
 
-	방법 1) 스크립트로 테스트
+방법 1) 스크립트로 테스트
 
 
-	
+
 {% raw %}
 ```typescript
-	// 테스트 코드
-	const sqlite3 = require('sqlite3');
-	const db = new sqlite3.Database('test.db');
-	db.get('SELECT 1 as test', [], (err, row) => {
-	  console.log(row);
-	});
+// 테스트 코드
+const sqlite3 = require('sqlite3');
+const db = new sqlite3.Database('test.db');
+db.get('SELECT 1 as test', [], (err, row) => {
+  console.log(row);
+});
 ```
 {% endraw %}
 
 
 
-	방법 2) 터미널로 단순 테스트
+방법 2) 터미널로 단순 테스트
 
 
-	
+
 {% raw %}
 ```bash
-	node -e "console.log(require('sqlite3'))"
+node -e "console.log(require('sqlite3'))"
 ```
 {% endraw %}
 
 
-3. 테스트 결과
+1. 테스트 결과
 	- `npm install` → 정상 실행 ✅
 	- `pnpm install` → 바이너리 파일 없음 에러 ❌
 		- `Could not locate the bindings file`
-4. 빌드된 바이너리 파일 확인
+2. 빌드된 바이너리 파일 확인
 
-	
+
 {% raw %}
 ```bash
-	ls node_modules/sqlite3/build/Release/node_sqlite3.node
+ls node_modules/sqlite3/build/Release/node_sqlite3.node
 ```
 {% endraw %}
 

@@ -185,16 +185,16 @@ Javascript도 Java와 같이 크게 **‘원시타입(Primitive Type)’**와 **
 
 
 > **Primitive**  
-> In [JavaScript](https://developer.mozilla.org/en-US/docs/Glossary/JavaScript), a **primitive** (primitive value, primitive data type) is data that is not an [object](https://developer.mozilla.org/en-US/docs/Glossary/Object) and has no [methods](https://developer.mozilla.org/en-US/docs/Glossary/Method) or [properties](https://developer.mozilla.org/en-US/docs/Glossary/Property/JavaScript).   
+> In JavaScript, a **primitive** (primitive value, primitive data type) is data that is not an object and has no methods or properties.   
 >   
 > There are 7 primitive data types:  
-> - [string  
-> - ](https://developer.mozilla.org/en-US/docs/Glossary/String)[number  
-> - ](https://developer.mozilla.org/en-US/docs/Glossary/Number)[bigint  
-> - ](https://developer.mozilla.org/en-US/docs/Glossary/BigInt)[boolean  
-> - ](https://developer.mozilla.org/en-US/docs/Glossary/Boolean)[undefined  
-> - ](https://developer.mozilla.org/en-US/docs/Glossary/Undefined)[symbol  
-> - ](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol)[null](https://developer.mozilla.org/en-US/docs/Glossary/Null)  
+> - string  
+> - number  
+> - bigint  
+> - boolean  
+> - undefined  
+> - symbol[  
+> ](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol)- null  
 >   
 > Most of the time, a primitive value is represented directly at the lowest level of the language implementation.  
 >   
@@ -207,7 +207,7 @@ Javascript도 Java와 같이 크게 **‘원시타입(Primitive Type)’**와 **
 여기까지는 다른 언어와 크게 다르지 않은 원시타입의 설명 같습니다. 하지만 이 다음의 설명을 보면 Javascript의 원시타입에 대한 <u>독특한 동작</u>이 명시되어 있습니다.
 
 
-> Primitives have no methods but still behave as if they do. When properties are accessed on primitives, JavaScript **’**_auto-boxes’_ the value into a wrapper object and accesses the property on that object instead. For example, `"foo".includes("f")` implicitly creates a [`String`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) wrapper object and calls `String.prototype.includes()` on that object. This auto-boxing behavior is not observable in JavaScript code but is a good mental model of various behaviors — for example, why "mutating" primitives does not work (because `str.foo = 1` is not assigning to the property `foo` of `str` itself, but to an ephemeral wrapper object).
+> Primitives have no methods but still behave as if they do. When properties are accessed on primitives, JavaScript **’**_auto-boxes’_ the value into a wrapper object and accesses the property on that object instead. For example, `"foo".includes("f")` implicitly creates a `String` wrapper object and calls `String.prototype.includes()` on that object. This auto-boxing behavior is not observable in JavaScript code but is a good mental model of various behaviors — for example, why "mutating" primitives does not work (because `str.foo = 1` is not assigning to the property `foo` of `str` itself, but to an ephemeral wrapper object).
 
 
 → _원시타입은 메서드가 없지만, 마치 메서드가 있는 것처럼 동작합니다. 원시타입에 속성에 접근하면 Javascript는 원시값을 래퍼객체에 ‘auto-boxes’합니다._
