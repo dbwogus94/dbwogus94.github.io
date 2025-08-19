@@ -176,11 +176,8 @@ Javascript도 Java와 같이 크게 **‘원시타입(Primitive Type)’**와 **
 하지만 NDN에 따르면 Javascript의 원시타입은 <u>객체가 아니며 메서드나 속성을 갖지 않는 데이터</u>입니다.
 
 
-> 💡 원시타입은 ‘원칙상 모든 값이 힙에 저장’ 되어야 하지만 엔진별 최적화에 따라 스택에 저장되기도 합니다.  
-> - 출처: [**JS 탐구생활 - JS의 값은 스택과 힙 중 어디에 저장되는가?**](https://witch.work/ko/posts/javascript-trip-of-js-value-where-value-stored)
-
-
-	- 출처: [**JS 탐구생활 - JS의 값은 스택과 힙 중 어디에 저장되는가?**](https://witch.work/ko/posts/javascript-trip-of-js-value-where-value-stored)
+👉🏻 원시타입은 ‘원칙상 모든 값이 힙에 저장’ 되어야 하지만 엔진별 최적화에 따라 스택에 저장되기도 합니다.
+- 출처: [**JS 탐구생활 - JS의 값은 스택과 힙 중 어디에 저장되는가?**](https://witch.work/ko/posts/javascript-trip-of-js-value-where-value-stored)
 
 
 
@@ -210,13 +207,13 @@ Javascript도 Java와 같이 크게 **‘원시타입(Primitive Type)’**와 **
 여기까지는 다른 언어와 크게 다르지 않은 원시타입의 설명 같습니다. 하지만 이 다음의 설명을 보면 Javascript의 원시타입에 대한 <u>독특한 동작</u>이 명시되어 있습니다.
 
 
-> Primitives have no methods but still behave as if they do. When properties are accessed on primitives, JavaScript _**auto-boxes**_ the value into a wrapper object and accesses the property on that object instead. For example, `"foo".includes("f")` implicitly creates a [`String`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) wrapper object and calls `String.prototype.includes()` on that object. This auto-boxing behavior is not observable in JavaScript code but is a good mental model of various behaviors — for example, why "mutating" primitives does not work (because `str.foo = 1` is not assigning to the property `foo` of `str` itself, but to an ephemeral wrapper object).
+> Primitives have no methods but still behave as if they do. When properties are accessed on primitives, JavaScript **’**_auto-boxes’_ the value into a wrapper object and accesses the property on that object instead. For example, `"foo".includes("f")` implicitly creates a [`String`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) wrapper object and calls `String.prototype.includes()` on that object. This auto-boxing behavior is not observable in JavaScript code but is a good mental model of various behaviors — for example, why "mutating" primitives does not work (because `str.foo = 1` is not assigning to the property `foo` of `str` itself, but to an ephemeral wrapper object).
 
 
-→ _원시타입은 메서드가 없지만, 마치 메서드가 있는 것처럼 동작합니다. 원시타입에 속성에 접근하면 Javascript는 원시값을 래퍼객체에_ _**auto-boxes**__합니다._
+→ _원시타입은 메서드가 없지만, 마치 메서드가 있는 것처럼 동작합니다. 원시타입에 속성에 접근하면 Javascript는 원시값을 래퍼객체에 ‘auto-boxes’합니다._
 
 
-_예를 들어_ _`"foo".includes("f")`__를 호출하면 암시적으로_ _`String`_ _객체가 생성되어_ _`String.prototype.icludes()`__가 호출됩니다. 이러한_ _**auto-boxes**_ _기능은 Javascript 코드에서 직접 확인은 할 수 없지만, 다양한 동작에 대한 좋은 모델입니다._ 
+_예를 들어_ _`"foo".includes("f")`__를 호출하면 암시적으로_ _`String`_ _객체가 생성되어_ _`String.prototype.icludes()`__가 호출됩니다. 이러한 ‘auto-boxes’_ _기능은 Javascript 코드에서 직접 확인은 할 수 없지만, 다양한 동작에 대한 좋은 모델입니다._ 
 
 
 _예를 들어 원시타입 속성에 대한 “변형”하는 것은 왜 동작하지 않는가?
@@ -336,3 +333,4 @@ console.log(str.count);      // 임시적으로 new String(str) 생성
 - [**DEV | Javascript Autoboxing**](https://dev.to/mmvergara/javascript-autoboxing-25jb)
 - [**Stack Overflow | Why are JavaScript primitives not instanceof Object?**](https://stackoverflow.com/questions/17938680/why-are-javascript-primitives-not-instanceof-object)
 - [**ECMAScript에서 auto-boxes에 대한 명세**](https://interglacial.com/javascript_spec/a-9.html)
+- [**JS 탐구생활 - JS의 값은 스택과 힙 중 어디에 저장되는가?**](https://witch.work/ko/posts/javascript-trip-of-js-value-where-value-stored)
