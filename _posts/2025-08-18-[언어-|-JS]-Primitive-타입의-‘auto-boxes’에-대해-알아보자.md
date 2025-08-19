@@ -11,6 +11,28 @@ mermaid: true
 > 📌 Javascript의 `'' instanceof String` 가 `true`가 아닌 이유와 그럼에도 `''.replace()`로 String 객체의 메서드에 접근 할 수 있는 이유에 대해 설명합니다.
 
 
+**👀 미리보기**
+
+
+
+{% raw %}
+```java
+// 1. instanceof로 리터럴 문자열 판별
+'' instanceof String
+>>> false
+
+// 2. 리터럴 문자열에 __proto__ 타입 접근
+''.__proto__
+>>> String {'', anchor: ƒ, at: ƒ, big: ƒ, blink: ƒ, …}
+```
+{% endraw %}
+
+
+1. 원시타입인 `string`는 `String`의 인스턴스가 아니기 때문에 `false`가 나옵니다.
+2. 리터럴 문자열에 `__proto__` 속성에 접근하면 auto-boxes에 의해 임시 String 인스턴스가 생성됩니다.
+	1. `''.__proto__` 호출시 내부적으로 `new String(’’)` 생성되고 `.__proto__` 속성의 값을 리턴합니다.
+	2. 그리고 결과를 반환하면 해당 임시 `new String(’’)`는 GC 대상이 됩니다.
+
 
 ### 0. 글 작성 배경
 
@@ -308,8 +330,8 @@ console.log(str.count);      // 임시적으로 new String(str) 생성
 
 1. 원시타입인 `string`는 `String`의 인스턴스가 아니기 때문에 `false`가 나옵니다.
 2. 리터럴 문자열에 `__proto__` 속성에 접근하면 auto-boxes에 의해 임시 String 인스턴스가 생성됩니다.
-	1. `''.__proto__` → `new String(’’)` 생성되고 `.__proto__` 속성의 값을 리턴합니다.
-	2. 결과를 반환하면 해당 임시 `new String(’’)`는 GC 대상이 됩니다.
+	1. `''.__proto__` 호출시 내부적으로 `new String(’’)` 생성되고 `.__proto__` 속성의 값을 리턴합니다.
+	2. 그리고 결과를 반환하면 해당 임시 `new String(’’)`는 GC 대상이 됩니다.
 
 여기까지 JavaScript의 원시타입과 **auto-boxing**이 실제로 어떻게 동작하는지 살펴보았습니다.
 
