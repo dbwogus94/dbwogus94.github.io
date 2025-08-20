@@ -132,7 +132,7 @@ new String().__proto__
 일반적으로 Java는 3가지 메모리 영역을 사용합니다.
 
 - Method(Static) 메모리 영역
-- Heep 메모리 영역
+- Heap 메모리 영역
 - Stack 메모리 영역
 
 클래스 기반의 언어인 Java는 어떻게 선언되는지에 따라 메모리에 할당되는 영역이 달라집니다.
@@ -144,13 +144,13 @@ new String().__proto__
 ```java
 public void method() {
     String str = "";        // Heap의 String pool에 저장
-    int num = 100;        // Stack에 저장
+    int num = 100;          // Stack에 저장
 }
 ```
 {% endraw %}
 
 
-1. **인스턴스 변수는 Heep 메모리에 저장**
+1. **인스턴스 변수는 Heap 메모리에 저장**
 
 
 {% raw %}
@@ -170,7 +170,7 @@ public class MyClass {
 ```java
 public class Constants {
     public static int num = 100;     // Method Area
-    public static String str = "";   // 참조값은 Method Area, 실제 객체는 Heep
+    public static String str = "";   // 참조값은 Method Area, 실제 객체는 Heap
 }
 ```
 {% endraw %}
@@ -183,13 +183,13 @@ public class Constants {
 
 **반면 Javascript는 2가지 메모리 영역만 사용합니다.**
 
-- Heep 메모리 영역
+- Heap 메모리 영역
 - Stack 메모리 영역
 
-그리고 일반적으로 Javascript는 모든 값은 Heep에 할당됩니다. 
+그리고 일반적으로 Javascript는 모든 값은 Heap에 할당됩니다. 
 
 
-Javascript도 Java와 같이 크게 **‘원시타입(Primitive Type)’**와 **‘참조타입(Reference Type)’**이 존재합니다. 하지만 Java와 다르게 모든 값은 Heep에 저장되어 관리됩니다.
+Javascript도 Java와 같이 크게 **‘원시타입(Primitive Type)’**와 **‘참조타입(Reference Type)’**이 존재합니다. 하지만 Java와 다르게 모든 값은 Heap에 저장되어 관리됩니다.
 
 
 “원시타입이 힙에 저장되기 때문에 객체인거 아니야?”라고 오해 할 수 있습니다.
